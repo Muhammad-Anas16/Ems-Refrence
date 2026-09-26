@@ -5,7 +5,7 @@ import DashboardPage from "./page/dashboard";
 
 function App() {
   return (
-    <main className="bg-[#070A0E] w-screen h-screen overflow-hidden text-white">
+    <main className="min-h-screen bg-[#070a0e] text-white">
       <Navbar />
       <DashboardPage />
     </main>
