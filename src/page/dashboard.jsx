@@ -1,5 +1,4 @@
-import TopCard from "../components/TopCard";
-
+import TopCard from "../components/topCard";
 import QuickInfoCard from "../components/dashboard/QuickInfoCard";
 import AlertsCard from "../components/dashboard/AlertsCard";
 import BuildingEnergyVisual from "../components/dashboard/BuildingEnergyVisual";
