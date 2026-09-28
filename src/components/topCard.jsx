@@ -1,10 +1,19 @@
-import { Coins, PlugZap, Sun, TrendingUp, Zap } from "lucide-react";
+import {
+  Coins,
+  Flame,
+  PlugZap,
+  Sun,
+  TrendingDown,
+  TrendingUp,
+  Zap,
+} from "lucide-react";
 
 const iconMap = {
   zap: Zap,
   plug: PlugZap,
   sun: Sun,
   coins: Coins,
+  flame: Flame,
 };
 
 const colorMap = {
@@ -12,12 +21,19 @@ const colorMap = {
   amber: "bg-amber-400/10 text-amber-300 ring-amber-300/10",
   blue: "bg-sky-400/10 text-sky-300 ring-sky-300/10",
   orange: "bg-orange-400/10 text-orange-300 ring-orange-300/10",
+  red: "bg-red-400/10 text-red-300 ring-red-300/10",
 };
 
 const TopCard = ({ card }) => {
   const Icon = iconMap[card?.icon] || Zap;
 
   const iconColor = colorMap[card?.iconTone] || colorMap.emerald;
+
+  const isDown = card?.trend === "down";
+
+  const TrendIcon = isDown ? TrendingDown : TrendingUp;
+
+  const trendColor = isDown ? "text-emerald-300" : "text-amber-300";
 
   return (
     <article className="rounded-2xl border border-white/[0.07] bg-[#0a0f14] p-4 shadow-[0_12px_40px_rgba(0,0,0,0.16)] transition duration-200 hover:-translate-y-0.5 hover:border-white/[0.1] sm:p-5">
@@ -49,9 +65,10 @@ const TopCard = ({ card }) => {
 
           {/* CHANGE */}
           <div className="mt-2 flex items-center gap-2">
-            <div className="flex items-center gap-1 text-xs font-semibold text-emerald-300">
-              <TrendingUp size={13} />
-
+            <div
+              className={`flex items-center gap-1 text-xs font-semibold ${trendColor}`}
+            >
+              <TrendIcon size={13} />
               {card?.change ?? "0%"}
             </div>
 

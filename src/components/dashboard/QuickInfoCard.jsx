@@ -4,22 +4,22 @@ import Panel from "./Panel";
 
 const locations = [
   {
-    name: "Main Campus",
+    name: "dyeing",
     value: "1,024 kW",
     color: "bg-emerald-400",
   },
   {
-    name: "North Block",
+    name: "Weaving ",
     value: "842 kW",
     color: "bg-cyan-400",
   },
   {
-    name: "East Wing",
+    name: "Apparel",
     value: "676 kW",
     color: "bg-violet-400",
   },
   {
-    name: "West Campus",
+    name: "KGL",
     value: "512 kW",
     color: "bg-amber-400",
   },
@@ -31,7 +31,7 @@ const QuickInfoCard = () => {
       <div className="flex items-center gap-2 px-4 pt-4">
         <Activity size={17} className="text-slate-400" />
 
-        <h3 className="text-sm font-semibold text-slate-100">Quick Info</h3>
+        <h3 className="text-sm font-semibold text-slate-100">Division Info</h3>
       </div>
 
       <div className="mt-2">
@@ -48,7 +48,7 @@ const QuickInfoCard = () => {
               className={`h-2.5 w-2.5 shrink-0 rounded-full ${item.color}`}
             />
 
-            <span className="min-w-0 flex-1 truncate text-xs text-slate-400">
+            <span className="min-w-0 flex-1 truncate text-xs text-slate-400 capitalize">
               {item.name}
             </span>
 
