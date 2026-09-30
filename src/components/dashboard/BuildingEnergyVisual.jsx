@@ -1,9 +1,7 @@
 import { Droplets, Flame, MapPin, Sun, Thermometer, Zap } from "lucide-react";
-
 import Panel from "./Panel";
-
-import buildingImage from "../../assets/image.png";
-
+// import buildingImage from "../../assets/image.png";
+import buildingImage from "../../assets/image.jpg";
 import { buildingEnergy } from "../../data/dashboardData";
 
 const iconMap = {
