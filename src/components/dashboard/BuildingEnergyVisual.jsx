@@ -1,6 +1,5 @@
 import { Droplets, Flame, MapPin, Sun, Thermometer, Zap } from "lucide-react";
 import Panel from "./Panel";
-// import buildingImage from "../../assets/image.png";
 import buildingImage from "../../assets/image.jpg";
 import { buildingEnergy } from "../../data/dashboardData";
 
@@ -95,7 +94,7 @@ const EnergyValue = ({ item }) => {
   );
 };
 
-const BuildingEnergyVisual = ({ building = "Main Hospital" }) => {
+const BuildingEnergyVisual = () => {
   return (
     <Panel className="overflow-hidden">
       {/* HEADER */}
@@ -103,10 +102,6 @@ const BuildingEnergyVisual = ({ building = "Main Hospital" }) => {
       <div className="relative z-30 flex items-center justify-between border-b border-white/[0.05] px-4 py-3">
         <div className="flex min-w-0 items-center gap-2">
           <MapPin size={16} className="shrink-0 text-slate-400" />
-
-          <span className="truncate text-xs font-medium text-slate-300">
-            {building}
-          </span>
         </div>
 
         <div className="flex items-center gap-2 rounded-full border border-emerald-300/10 bg-emerald-300/[0.05] px-2.5 py-1">
@@ -123,7 +118,7 @@ const BuildingEnergyVisual = ({ building = "Main Hospital" }) => {
 
         <img
           src={buildingImage}
-          alt={`${building} energy overview`}
+          alt={`energy overview`}
           className="absolute inset-0 h-full w-full object-cover object-center"
         />
 
