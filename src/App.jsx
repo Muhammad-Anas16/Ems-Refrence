@@ -57,7 +57,7 @@ import Navbar from "./components/Navbar";
 import DashboardPage from "./page/dashboard";
 import LoginDialog from "./components/login/loginDialog";
 
-import { checkConnection, loginToServer } from "./api/api";
+import { checkConnection, getEnergyLog, getTrendLog, loginToServer } from "./api/api";
 
 function App() {
   const [openDialog, setOpenDialog] = useState(true);
@@ -82,6 +82,28 @@ function App() {
     };
 
     checkAuth();
+  }, []);
+
+  useEffect(() => {
+    const getTrendData = async () => {
+      try {
+        const res = await getTrendLog();
+        console.log(res);
+
+        const res1 = await getEnergyLog();
+        console.log(res1);
+      } catch (error) {}
+    };
+
+    const getEnergyData = async () => {
+      try {
+        const res = await getEnergyLog();
+        console.log(res);
+      } catch (error) {}
+    };
+
+    getTrendData();
+    getEnergyData();
   }, []);
 
   const handleLogin = async (ip) => {

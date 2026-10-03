@@ -70,3 +70,63 @@ export const logout = () => {
 export const getAuthToken = () => {
   return localStorage.getItem(TOKEN_KEY);
 };
+
+export const getTrendLog = async () => {
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+
+    if (!token) {
+      return {
+        success: false,
+        message: "Authentication token not found",
+      };
+    }
+
+    const res = await axios.get(`${ServerIP}/data/trendlog`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return res?.data?.data?.response;
+  } catch (error) {
+    if (error?.response?.status === 401) {
+      localStorage.removeItem(TOKEN_KEY);
+    }
+
+    return {
+      success: false,
+      message: error?.response?.data?.message || "Authentication failed",
+    };
+  }
+};
+
+export const getEnergyLog = async () => {
+  try {
+    const token = localStorage.getItem(TOKEN_KEY);
+
+    if (!token) {
+      return {
+        success: false,
+        message: "Authentication token not found",
+      };
+    }
+
+    const res = await axios.get(`${ServerIP}/data/energylog`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return res?.data?.data?.response;
+  } catch (error) {
+    if (error?.response?.status === 401) {
+      localStorage.removeItem(TOKEN_KEY);
+    }
+
+    return {
+      success: false,
+      message: error?.response?.data?.message || "Authentication failed",
+    };
+  }
+};
