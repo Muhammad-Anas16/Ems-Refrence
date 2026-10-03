@@ -1,55 +1,3 @@
-// import { useEffect, useState } from "react";
-// import "./App.css";
-// import Navbar from "./components/Navbar";
-// import DashboardPage from "./page/dashboard";
-// import { checkConnection } from "./api/api";
-// import LoginDialog from "./components/login/loginDialog";
-
-// function App() {
-//   const [openDialog, setOpenDialog] = useState(true);
-//   useEffect(() => {
-//     const data = async () => {
-//       const res = await checkConnection();
-//       if (!res?.success) {
-//         console.log("Mot Login");
-//       }
-//       setOpenDialog(res?.success ? false : true);
-//       console.log(res);
-//     };
-
-//     data();
-//   }, [openDialog]);
-
-//   const handleLogin = async (ip) => {
-//     if (!ip) {
-//       setOpenDialog(true);
-//       return;
-//     }
-//     try {
-//       console.log("User IP:", ip);
-//       const res = await loginToServer(ip);
-//       console.log(res);
-//     } catch (error) {
-//       console.log(error.message || "Credential Error Please Submit a Valid IP");
-//     }
-//   };
-
-//   return (
-//     <main className="min-h-screen bg-[#070a0e] text-white">
-//       <Navbar />
-//       <LoginDialog
-//         open={openDialog}
-//         // onOpenChange={() => {}}
-//         onOpenChange={setOpenDialog}
-//         onSubmit={handleLogin}
-//       />
-//       <DashboardPage />
-//     </main>
-//   );
-// }
-
-// export default App;
-
 import { useEffect, useState } from "react";
 import "./App.css";
 
@@ -57,7 +5,18 @@ import Navbar from "./components/Navbar";
 import DashboardPage from "./page/dashboard";
 import LoginDialog from "./components/login/loginDialog";
 
-import { checkConnection, getEnergyLog, getTrendLog, loginToServer } from "./api/api";
+import {
+  checkConnection,
+  getEnergyLog,
+  getTrendLog,
+  loginToServer,
+} from "./api/api";
+import {
+  ApparelDepartment,
+  DyeingDepartment,
+  KglDepartment,
+  WeavingDepartment,
+} from "./api/auroraMetersData";
 
 function App() {
   const [openDialog, setOpenDialog] = useState(true);
@@ -88,22 +47,30 @@ function App() {
     const getTrendData = async () => {
       try {
         const res = await getTrendLog();
-        console.log(res);
-
-        const res1 = await getEnergyLog();
-        console.log(res1);
+        console.log("trend", res?.trendlog);
       } catch (error) {}
     };
 
     const getEnergyData = async () => {
       try {
         const res = await getEnergyLog();
+        console.log(
+          "energy",
+          res?.energylog.map((data) => data?.description),
+        );
+      } catch (error) {}
+    };
+
+    const DivisionData = async () => {
+      try {
+        const res = await KglDepartment();
         console.log(res);
       } catch (error) {}
     };
 
-    getTrendData();
-    getEnergyData();
+    // getTrendData();
+    // getEnergyData();
+    DivisionData();
   }, []);
 
   const handleLogin = async (ip) => {
