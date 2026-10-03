@@ -4,12 +4,7 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import DashboardPage from "./page/dashboard";
 import LoginDialog from "./components/login/loginDialog";
-
-import {
-  checkConnection,
-  getTrendLog,
-  loginToServer,
-} from "./api/api";
+import { checkConnection, getTrendLog, loginToServer } from "./api/api";
 import {
   ApparelDepartment,
   DyeingDepartment,
@@ -50,14 +45,28 @@ function App() {
       } catch (error) {}
     };
 
+    // getTrendData();
+
     const DivisionData = async () => {
       try {
-        const res = await KglDepartment();
-        console.log(res);
+        const Apparel = await ApparelDepartment();
+        // const Dyeing = await DyeingDepartment();
+        // const Weaving = await WeavingDepartment();
+        // const deleted = await KglDepartment();
+        console
+          .log
+          // Apparel.filter((data) => data.description && data.instance),
+          ();
+        console.log(
+          Apparel.map((data) => `${data.instance} : ${data.description}`),
+        );
+        // console.log("Apparel", Apparel.length);
+        // console.log("Dyeing", Dyeing.length);
+        // console.log("Weaving", Weaving.length);
+        // console.log("deleted", deleted.length);
       } catch (error) {}
     };
 
-    // getTrendData();
     DivisionData();
   }, []);
 
