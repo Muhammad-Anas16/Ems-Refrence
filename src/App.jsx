@@ -7,7 +7,6 @@ import LoginDialog from "./components/login/loginDialog";
 
 import {
   checkConnection,
-  getEnergyLog,
   getTrendLog,
   loginToServer,
 } from "./api/api";
@@ -51,16 +50,6 @@ function App() {
       } catch (error) {}
     };
 
-    const getEnergyData = async () => {
-      try {
-        const res = await getEnergyLog();
-        console.log(
-          "energy",
-          res?.energylog.map((data) => data?.description),
-        );
-      } catch (error) {}
-    };
-
     const DivisionData = async () => {
       try {
         const res = await KglDepartment();
@@ -69,7 +58,6 @@ function App() {
     };
 
     // getTrendData();
-    // getEnergyData();
     DivisionData();
   }, []);
 
