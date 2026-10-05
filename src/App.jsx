@@ -18,6 +18,7 @@ import {
 } from "./api/auroraMetersData";
 import { Route, Routes } from "react-router";
 import EnergyDashboard from "./components/energy/EnergyDashboard";
+import ConsumptionData from "./page/division/consuptionData";
 
 function App() {
   const [openDialog, setOpenDialog] = useState(true);
@@ -127,15 +128,16 @@ function App() {
     <main className="min-h-screen bg-[#070a0e] text-white">
       <Navbar />
 
-      <LoginDialog
+      {/* <LoginDialog
         open={openDialog}
         onOpenChange={setOpenDialog}
         onSubmit={handleLogin}
-      />
+      /> */}
 
       <Routes>
         <Route path="/" element={<DashboardPage />} />
         <Route path="/energy" element={<EnergyDashboard />} />
+        <Route path="/energy/consumption" element={<ConsumptionData />} />
       </Routes>
     </main>
   );

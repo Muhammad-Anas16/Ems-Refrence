@@ -77,3 +77,11 @@ export const energyData = [
     isIncrease: false,
   },
 ];
+
+export const consumptionData = [
+  { type: "Gas" },
+  { type: "water" },
+  { type: "Electricity" },
+  { type: "Steam" },
+  { type: "Air" },
+];
