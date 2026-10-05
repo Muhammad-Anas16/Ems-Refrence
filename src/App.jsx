@@ -4,13 +4,20 @@ import "./App.css";
 import Navbar from "./components/Navbar";
 import DashboardPage from "./page/dashboard";
 import LoginDialog from "./components/login/loginDialog";
-import { checkConnection, getTrendLog, loginToServer } from "./api/api";
+import {
+  checkConnection,
+  getEnergyLog,
+  getTrendLog,
+  loginToServer,
+} from "./api/api";
 import {
   ApparelDepartment,
   DyeingDepartment,
   KglDepartment,
   WeavingDepartment,
 } from "./api/auroraMetersData";
+import { Route, Routes } from "react-router";
+import EnergyDashboard from "./components/energy/EnergyDashboard";
 
 function App() {
   const [openDialog, setOpenDialog] = useState(true);
@@ -42,10 +49,23 @@ function App() {
       try {
         const res = await getTrendLog();
         console.log("trend", res?.trendlog);
+        // console.log("trend", res?.trendlog.reduce( (data, sum) => sum + Number(data.instance, 0) || 0) );
+      } catch (error) {}
+    };
+
+    const getEnergyData = async () => {
+      try {
+        const { energylog } = await getEnergyLog();
+        console.log("energy", energylog);
+        console.log(
+          "total energy instance",
+          energylog.reduce((data, sum) => sum + Number(data.instance, 0) || 0),
+        );
       } catch (error) {}
     };
 
     // getTrendData();
+    getEnergyData();
 
     const DivisionData = async () => {
       try {
@@ -53,13 +73,12 @@ function App() {
         // const Dyeing = await DyeingDepartment();
         // const Weaving = await WeavingDepartment();
         // const deleted = await KglDepartment();
-        console
-          .log
-          // Apparel.filter((data) => data.description && data.instance),
-          ();
-        console.log(
-          Apparel.map((data) => `${data.instance} : ${data.description}`),
-        );
+        console.log(Apparel);
+        // console.log(Apparel.map((data) => data.instance));
+        // console.log(
+        //   "Apparel",
+        //   Apparel.reduce((sum, data) => sum + Number(data.instance || 0), 0),
+        // );
         // console.log("Apparel", Apparel.length);
         // console.log("Dyeing", Dyeing.length);
         // console.log("Weaving", Weaving.length);
@@ -67,7 +86,7 @@ function App() {
       } catch (error) {}
     };
 
-    DivisionData();
+    // DivisionData();
   }, []);
 
   const handleLogin = async (ip) => {
@@ -114,7 +133,10 @@ function App() {
         onSubmit={handleLogin}
       />
 
-      <DashboardPage />
+      <Routes>
+        <Route path="/" element={<DashboardPage />} />
+        <Route path="/energy" element={<EnergyDashboard />} />
+      </Routes>
     </main>
   );
 }
