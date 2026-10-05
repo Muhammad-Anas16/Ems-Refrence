@@ -19,6 +19,7 @@ import {
 import { Route, Routes } from "react-router";
 import ConsumptionData from "./page/division/consuptionData";
 import GenerationPage from "./page/division/generationPage";
+import ReportPage from "./page/division/reportPage";
 
 function App() {
   const [openDialog, setOpenDialog] = useState(true);
@@ -138,6 +139,7 @@ function App() {
         <Route path="/" element={<DashboardPage />} />
         <Route path="/energy" element={<GenerationPage />} />
         <Route path="/energy/consumption" element={<ConsumptionData />} />
+        <Route path="/energy/consumption/list" element={<ReportPage />} />
       </Routes>
     </main>
   );
