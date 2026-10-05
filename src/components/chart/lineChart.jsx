@@ -8,14 +8,6 @@ import {
 } from "recharts";
 
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-
-import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
@@ -74,6 +66,7 @@ const chartConfig = {
     label: "Main Incomer",
     color: "var(--chart-1)",
   },
+
   dyeing: {
     label: "Dyeing Unit",
     color: "var(--chart-2)",
@@ -86,96 +79,119 @@ const LineChart = () => {
   const currentValue = chartData[chartData.length - 1]?.[activeChart] ?? 0;
 
   return (
-    <Card className="h-full">
-      <CardHeader className="flex flex-col items-stretch border-b p-0 sm:flex-row">
-        <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5">
-          <CardTitle>Power Load Trend</CardTitle>
+    <div className="h-full w-full bg-slate-900 p-5">
+      {/* Compact Header */}
+      <div className="mb-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-semibold text-white">Power Load Trend</p>
 
-          <CardDescription>Hourly power demand comparison</CardDescription>
+            <p className="mt-1 text-xs text-slate-400">Hourly power demand</p>
+          </div>
+
+          <div className="text-right">
+            <p className="text-lg font-bold text-white">
+              {currentValue.toLocaleString()}
+            </p>
+
+            <p className="text-[11px] text-slate-500">kW</p>
+          </div>
         </div>
+      </div>
 
-        <div className="flex">
-          {Object.keys(chartConfig).map((key) => {
-            const isActive = activeChart === key;
-            const chart = chartConfig[key];
+      {/* Chart Selector */}
+      <div className="mb-4 grid grid-cols-2 overflow-hidden rounded-lg border border-slate-800">
+        {Object.keys(chartConfig).map((key) => {
+          const isActive = activeChart === key;
+          const chart = chartConfig[key];
 
-            return (
-              <button
-                key={key}
-                type="button"
-                onClick={() => setActiveChart(key)}
-                className={`relative flex min-w-[150px] flex-col justify-center gap-1 border-t px-5 py-4 text-left transition-colors sm:border-l sm:border-t-0 sm:px-7 ${
-                  isActive ? "bg-muted/50" : "hover:bg-muted/30"
-                }`}
-              >
-                <span className="text-xs text-muted-foreground">
-                  {chart.label}
-                </span>
+          return (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setActiveChart(key)}
+              className={`
+                px-4
+                py-3
+                text-left
+                transition-colors
+                ${
+                  isActive
+                    ? "bg-slate-800"
+                    : "bg-slate-950/40 hover:bg-slate-800/50"
+                }
+                ${key === "dyeing" ? "border-l border-slate-800" : ""}
+              `}
+            >
+              <span className="block text-xs text-slate-400">
+                {chart.label}
+              </span>
 
-                <span className="text-xl font-bold sm:text-2xl">
-                  {chartData[chartData.length - 1][key].toLocaleString()} kW
-                </span>
-              </button>
-            );
-          })}
-        </div>
-      </CardHeader>
+              <span className="mt-1 block text-base font-bold text-white">
+                {chartData[chartData.length - 1][key].toLocaleString()}{" "}
+                <span className="text-xs font-normal text-slate-400">kW</span>
+              </span>
+            </button>
+          );
+        })}
+      </div>
 
-      <CardContent className="pt-6">
-        <ChartContainer config={chartConfig} className="h-[300px] w-full">
-          <RechartsLineChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12,
-              top: 10,
-              bottom: 0,
+      {/* Chart */}
+      <ChartContainer config={chartConfig} className="h-[330px] w-full">
+        <RechartsLineChart
+          accessibilityLayer
+          data={chartData}
+          margin={{
+            left: 5,
+            right: 5,
+            top: 10,
+            bottom: 0,
+          }}
+        >
+          <CartesianGrid vertical={false} />
+
+          <XAxis
+            dataKey="time"
+            tickLine={false}
+            axisLine={false}
+            tickMargin={8}
+            tick={{ fontSize: 10 }}
+          />
+
+          <ChartTooltip
+            cursor={false}
+            content={
+              <ChartTooltipContent
+                indicator="line"
+                formatter={(value) => `${value} kW`}
+              />
+            }
+          />
+
+          <Line
+            dataKey={activeChart}
+            type="monotone"
+            stroke={`var(--color-${activeChart})`}
+            strokeWidth={3}
+            dot={false}
+            activeDot={{
+              r: 5,
             }}
-          >
-            <CartesianGrid vertical={false} />
+          />
+        </RechartsLineChart>
+      </ChartContainer>
 
-            <XAxis
-              dataKey="time"
-              tickLine={false}
-              axisLine={false}
-              tickMargin={8}
-            />
+      {/* Current Value */}
+      <div className="mt-4 flex items-center justify-between border-t border-slate-800 pt-4">
+        <span className="text-xs text-slate-400">
+          Current {chartConfig[activeChart].label} load
+        </span>
 
-            <ChartTooltip
-              cursor={false}
-              content={
-                <ChartTooltipContent
-                  indicator="line"
-                  formatter={(value) => `${value} kW`}
-                />
-              }
-            />
-
-            <Line
-              dataKey={activeChart}
-              type="monotone"
-              stroke={`var(--color-${activeChart})`}
-              strokeWidth={3}
-              dot={false}
-              activeDot={{
-                r: 5,
-              }}
-            />
-          </RechartsLineChart>
-        </ChartContainer>
-
-        <div className="mt-4 flex items-center justify-between border-t pt-4">
-          <span className="text-sm text-muted-foreground">
-            Current {chartConfig[activeChart].label} load
-          </span>
-
-          <span className="text-lg font-semibold">
-            {currentValue.toLocaleString()} kW
-          </span>
-        </div>
-      </CardContent>
-    </Card>
+        <span className="text-base font-semibold text-white">
+          {currentValue.toLocaleString()} kW
+        </span>
+      </div>
+    </div>
   );
 };
 

@@ -93,6 +93,13 @@ const meterData = [
   },
 ];
 
+const formatNumber = (value) => {
+  return value.toLocaleString(undefined, {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  });
+};
+
 const ReportTable = () => {
   const totalPower = meterData.reduce((total, meter) => total + meter.power, 0);
 
@@ -115,167 +122,128 @@ const ReportTable = () => {
   ).length;
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <div className="flex flex-col gap-1">
-          <CardTitle>Energy Meter Details</CardTitle>
+    <Card
+      className="
+        h-full
+        min-w-0
+        overflow-hidden
+        border-slate-800
+        bg-slate-900
+        text-white
+        shadow-lg
+        shadow-black/20
+      "
+    >
+      <CardHeader className="border-b border-slate-800">
+        <CardTitle>Energy Meter Details</CardTitle>
 
-          <CardDescription>
-            Real-time meter status, power, current and energy consumption
-          </CardDescription>
-        </div>
+        <CardDescription className="text-slate-400">
+          Real-time meter status and energy data
+        </CardDescription>
       </CardHeader>
 
-      <CardContent>
-        <div className="overflow-hidden rounded-lg border">
-          <div className="overflow-x-auto">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="min-w-[220px]">Meter Name</TableHead>
+      <CardContent className="p-0">
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow className="border-slate-800 hover:bg-transparent">
+                <TableHead className="min-w-[160px] text-slate-400">
+                  Meter
+                </TableHead>
 
-                  <TableHead className="min-w-[210px]">Status</TableHead>
+                <TableHead className="min-w-[120px] text-slate-400">
+                  Status
+                </TableHead>
 
-                  <TableHead className="text-right">Power (kW)</TableHead>
+                <TableHead className="text-right text-slate-400">kW</TableHead>
 
-                  <TableHead className="text-right">Current (A)</TableHead>
+                <TableHead className="text-right text-slate-400">A</TableHead>
 
-                  <TableHead className="text-right">
-                    Consumption (kWh)
-                  </TableHead>
+                <TableHead className="text-right text-slate-400">kWh</TableHead>
 
-                  <TableHead className="text-right">Last Update</TableHead>
-                </TableRow>
-              </TableHeader>
+                <TableHead className="text-right text-slate-400">
+                  Update
+                </TableHead>
+              </TableRow>
+            </TableHeader>
 
-              <TableBody>
-                {meterData.map((meter) => {
-                  const isRunning = meter.status === "running";
+            <TableBody>
+              {meterData.map((meter) => {
+                const isRunning = meter.status === "running";
 
-                  return (
-                    <TableRow key={meter.id}>
-                      <TableCell className="font-medium">
-                        {meter.name}
-                      </TableCell>
+                return (
+                  <TableRow
+                    key={meter.id}
+                    className="border-slate-800 hover:bg-slate-800/40"
+                  >
+                    <TableCell className="font-medium text-white">
+                      {meter.name}
+                    </TableCell>
 
-                      <TableCell>
-                        <div className="flex items-center gap-4">
-                          <label className="flex items-center gap-2">
-                            <input
-                              type="radio"
-                              checked={isRunning}
-                              readOnly
-                              disabled
-                              className="h-4 w-4 accent-emerald-600"
-                            />
+                    <TableCell>
+                      {isRunning ? (
+                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-400">
+                          <CheckCircle2 className="h-3.5 w-3.5" />
+                          Running
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-red-400">
+                          <CircleOff className="h-3.5 w-3.5" />
+                          Stopped
+                        </span>
+                      )}
+                    </TableCell>
 
-                            <span
-                              className={
-                                isRunning
-                                  ? "text-sm text-emerald-600"
-                                  : "text-sm text-muted-foreground"
-                              }
-                            >
-                              Running
-                            </span>
-                          </label>
+                    <TableCell className="text-right font-semibold text-white">
+                      {formatNumber(meter.power)}
+                    </TableCell>
 
-                          <label className="flex items-center gap-2">
-                            <input
-                              type="radio"
-                              checked={!isRunning}
-                              readOnly
-                              disabled
-                              className="h-4 w-4 accent-red-600"
-                            />
+                    <TableCell className="text-right font-semibold text-white">
+                      {formatNumber(meter.current)}
+                    </TableCell>
 
-                            <span
-                              className={
-                                !isRunning
-                                  ? "text-sm text-red-600"
-                                  : "text-sm text-muted-foreground"
-                              }
-                            >
-                              Stopped
-                            </span>
-                          </label>
-                        </div>
-                      </TableCell>
+                    <TableCell className="text-right font-semibold text-white">
+                      {formatNumber(meter.consumption)}
+                    </TableCell>
 
-                      <TableCell className="text-right font-semibold">
-                        {meter.power.toLocaleString(undefined, {
-                          minimumFractionDigits: 1,
-                          maximumFractionDigits: 1,
-                        })}
-                      </TableCell>
+                    <TableCell className="text-right text-xs text-slate-400">
+                      {meter.lastUpdate}
+                    </TableCell>
+                  </TableRow>
+                );
+              })}
 
-                      <TableCell className="text-right font-semibold">
-                        {meter.current.toLocaleString(undefined, {
-                          minimumFractionDigits: 1,
-                          maximumFractionDigits: 1,
-                        })}
-                      </TableCell>
+              <TableRow className="border-slate-700 bg-slate-800/70 font-bold hover:bg-slate-800/70">
+                <TableCell className="text-white">Total</TableCell>
 
-                      <TableCell className="text-right font-semibold">
-                        {meter.consumption.toLocaleString(undefined, {
-                          minimumFractionDigits: 1,
-                          maximumFractionDigits: 1,
-                        })}
-                      </TableCell>
+                <TableCell>
+                  <div className="flex flex-col gap-1 text-xs">
+                    <span className="text-emerald-400">
+                      {runningMeters} Running
+                    </span>
 
-                      <TableCell className="text-right text-sm text-muted-foreground">
-                        {meter.lastUpdate}
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                    <span className="text-red-400">
+                      {stoppedMeters} Stopped
+                    </span>
+                  </div>
+                </TableCell>
 
-                <TableRow className="bg-muted/50 font-bold">
-                  <TableCell>Total</TableCell>
+                <TableCell className="text-right text-white">
+                  {formatNumber(totalPower)}
+                </TableCell>
 
-                  <TableCell>
-                    <div className="flex items-center gap-3">
-                      <span className="flex items-center gap-1 text-sm text-emerald-600">
-                        <CheckCircle2 className="h-4 w-4" />
-                        {runningMeters} Running
-                      </span>
+                <TableCell className="text-right text-white">
+                  {formatNumber(totalCurrent)}
+                </TableCell>
 
-                      <span className="flex items-center gap-1 text-sm text-red-600">
-                        <CircleOff className="h-4 w-4" />
-                        {stoppedMeters} Stopped
-                      </span>
-                    </div>
-                  </TableCell>
+                <TableCell className="text-right text-white">
+                  {formatNumber(totalConsumption)}
+                </TableCell>
 
-                  <TableCell className="text-right">
-                    {totalPower.toLocaleString(undefined, {
-                      minimumFractionDigits: 1,
-                      maximumFractionDigits: 1,
-                    })}{" "}
-                    kW
-                  </TableCell>
-
-                  <TableCell className="text-right">
-                    {totalCurrent.toLocaleString(undefined, {
-                      minimumFractionDigits: 1,
-                      maximumFractionDigits: 1,
-                    })}{" "}
-                    A
-                  </TableCell>
-
-                  <TableCell className="text-right">
-                    {totalConsumption.toLocaleString(undefined, {
-                      minimumFractionDigits: 1,
-                      maximumFractionDigits: 1,
-                    })}{" "}
-                    kWh
-                  </TableCell>
-
-                  <TableCell />
-                </TableRow>
-              </TableBody>
-            </Table>
-          </div>
+                <TableCell />
+              </TableRow>
+            </TableBody>
+          </Table>
         </div>
       </CardContent>
     </Card>
