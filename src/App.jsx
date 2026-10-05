@@ -17,8 +17,8 @@ import {
   WeavingDepartment,
 } from "./api/auroraMetersData";
 import { Route, Routes } from "react-router";
-import EnergyDashboard from "./components/energy/EnergyDashboard";
 import ConsumptionData from "./page/division/consuptionData";
+import GenerationPage from "./page/division/generationPage";
 
 function App() {
   const [openDialog, setOpenDialog] = useState(true);
@@ -136,7 +136,7 @@ function App() {
 
       <Routes>
         <Route path="/" element={<DashboardPage />} />
-        <Route path="/energy" element={<EnergyDashboard />} />
+        <Route path="/energy" element={<GenerationPage />} />
         <Route path="/energy/consumption" element={<ConsumptionData />} />
       </Routes>
     </main>

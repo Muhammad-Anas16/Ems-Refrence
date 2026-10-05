@@ -1,16 +1,47 @@
-import TotalLoad from "@/components/energy/details/totalLoad";
-import UtilitiesData from "@/components/energy/details/utilitiesData";
-import EnergyDonut from "@/components/energy/EnergyDonut";
 import React from "react";
+import EnergyDonut from "@/components/energy/EnergyDonut";
+import UtilitiesData from "@/components/energy/details/utilitiesData";
+import TotalLoad from "@/components/energy/details/totalLoad";
+import { consumptionData } from "@/components/energy/energy-data";
+import TopCard from "@/components/energy/details/topCard";
 
 const ConsumptionData = () => {
   return (
-    <main className="bg-[#050b13] text-white flex flex-col justify-between font-sans">
-      <section className="flex-1 flex items-center justify-center py-6">
-        <UtilitiesData />
-        <EnergyDonut />
-        <TotalLoad />
-      </section>
+    <main className="min-h-screen bg-[#050b13] text-white font-sans overflow-hidden">
+      {/* Main Content */}
+      <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1500px] flex-col px-4 py-5 sm:px-6 lg:px-8">
+        {/* Top Summary Cards */}
+
+        <TopCard />
+
+        {/* Main Dashboard */}
+        <section className="flex-1">
+          <div className="grid min-h-[560px] grid-cols-1 gap-5 lg:grid-cols-[230px_minmax(420px,1fr)_230px] xl:grid-cols-[250px_minmax(500px,1fr)_250px]">
+            {/* Left - Utilities */}
+            <div className="order-2 lg:order-1">
+              <UtilitiesData />
+            </div>
+
+            {/* Center - Donut */}
+            <div className="order-1 flex min-h-[560px] items-center justify-center lg:order-2">
+              <div className="relative flex h-full w-full items-center justify-center backdrop-blur-sm">
+                {/* Decorative center glow */}
+                <div className="pointer-events-none absolute h-72 w-72 rounded-full bg-cyan-500/[0.025] blur-3xl" />
+
+                <EnergyDonut />
+              </div>
+            </div>
+
+            {/* Right - Total Load */}
+            <div className="order-3">
+              <div className="flex h-full items-center">
+                <TotalLoad />
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
     </main>
   );
 };

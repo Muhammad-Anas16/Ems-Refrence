@@ -1,3 +1,4 @@
+import EnergyDonut from "@/components/energy/EnergyDonut";
 import React from "react";
 
 const GenerationPage = () => {
