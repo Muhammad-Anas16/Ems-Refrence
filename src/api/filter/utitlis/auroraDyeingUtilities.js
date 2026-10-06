@@ -6,7 +6,17 @@ const AuroraDyeingUtilities = async (type = "Electricity") => {
 
     const uniqueData = [
       ...new Set(data.map((item) => item?.utilityType).filter(Boolean)),
+    ]; // instance
+
+    const dataInstance = [
+      ...new Set(
+        data.map((item) => {
+          const instance = item?.instance;
+          return instance - (instance % 100) + 40;
+        }),
+      ),
     ];
+    // console.log(dataInstance);
 
     const filter = data.filter((item) => item?.utilityType === type);
 
@@ -15,6 +25,8 @@ const AuroraDyeingUtilities = async (type = "Electricity") => {
       dataType: uniqueData,
       data: filter,
       dataCount: filter.length,
+      consumption: "Dyeing",
+      instanceForTotalValue: dataInstance,
     };
   } catch (error) {
     console.error("AuroraDyeingUtilities Error:", error);

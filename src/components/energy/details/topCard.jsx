@@ -1,8 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { energyData } from "../energy-data";
+import AuroraDyeingUtilities from "@/api/filter/utitlis/auroraDyeingUtilities";
 
 const TopCard = () => {
-  const utilityCount = Array.isArray(energyData) ? energyData.length : 0;
+  const [utilis, setUtilis] = useState({});
+  useEffect(() => {
+    const data = async (data) => {
+      const res = await AuroraDyeingUtilities(data);
+      setUtilis(res);
+    };
+
+    data();
+  }, []);
+  console.log(utilis);
+  const utilityCount = Array.isArray(utilis?.dataType) ? utilis?.dataType : 0;
 
   const electricalData = energyData?.find((item) => item.id === "electrical");
 
@@ -22,7 +33,9 @@ const TopCard = () => {
         </div>
 
         <div className="mt-2 flex items-end gap-2">
-          <span className="text-2xl font-bold text-white">{utilityCount}</span>
+          <span className="text-2xl font-bold text-white">
+            {utilis?.dataType?.length || 0}
+          </span>
 
           <span className="pb-1 text-xs text-slate-500">utilities</span>
         </div>
@@ -37,7 +50,9 @@ const TopCard = () => {
         </div>
 
         <div className="mt-2">
-          <span className="text-lg font-semibold text-white">Distribution</span>
+          <span className="text-lg font-semibold text-white">
+            {utilis?.consumption || "Distribution"}
+          </span>
 
           <p className="mt-0.5 text-[11px] text-slate-500">
             Utility-wise energy breakdown
