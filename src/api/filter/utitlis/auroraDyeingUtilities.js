@@ -6,7 +6,7 @@ const AuroraDyeingUtilities = async (type = "Electricity") => {
 
     const uniqueData = [
       ...new Set(data.map((item) => item?.utilityType).filter(Boolean)),
-    ]; // instance
+    ];
 
     const dataInstance = [
       ...new Set(
@@ -16,7 +16,9 @@ const AuroraDyeingUtilities = async (type = "Electricity") => {
         }),
       ),
     ];
-    // console.log(dataInstance);
+
+    const getDataFromInstance = dataInstance.map((item) => item);
+    console.log(getDataFromInstance);
 
     const filter = data.filter((item) => item?.utilityType === type);
 

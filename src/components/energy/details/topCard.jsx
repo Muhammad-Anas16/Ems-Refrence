@@ -12,7 +12,7 @@ const TopCard = () => {
 
     data();
   }, []);
-  console.log(utilis);
+  // console.log(utilis);
   const utilityCount = Array.isArray(utilis?.dataType) ? utilis?.dataType : 0;
 
   const electricalData = energyData?.find((item) => item.id === "electrical");
