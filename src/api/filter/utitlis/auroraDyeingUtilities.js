@@ -1,5 +1,6 @@
 import { bacnetRead } from "@/api/api";
 import { DyeingDepartment } from "../auroraMetersData";
+import EmsDataFile from "@/data/ems_config_40";
 
 export const getBACnetInstances = (dyeingData = []) => {
   return [
@@ -85,10 +86,15 @@ const AuroraDyeingUtilities = async (type = "Electricity") => {
     ];
 
     const dataInstance = getBACnetInstances(dyeingData);
+    console.log(dataInstance);
+    const filterMeter = EmsDataFile.meters.map((item) => item.instance);
+    // console.log("default", EmsDataFile.meters);
+    console.log("default", filterMeter);
 
     // console.log("BACnet Instances:", dataInstance);
 
-    const result = await getBACnetTotal(dataInstance);
+    // const result = await getBACnetTotal(dataInstance);
+    const result = await getBACnetTotal(filterMeter);
     // console.log("result", result);
 
     const filter = filterByUtilityTypes(dyeingData, uniqueData);
