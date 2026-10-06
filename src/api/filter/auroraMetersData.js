@@ -1,4 +1,4 @@
-import { getEnergyLog } from "./api";
+import { getEnergyLog } from "../api";
 
 export const DyeingDepartment = async () => {
   try {

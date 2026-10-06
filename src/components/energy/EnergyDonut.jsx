@@ -11,7 +11,7 @@ const EnergyDonut = () => {
 
       {/* Recharts Pie Chart */}
       <div className="relative w-full h-full">
-        <ResponsiveContainer width="100%" height="100%">
+        <ResponsiveContainer>
           <PieChart>
             <Pie
               data={energyData}
