@@ -1,24 +1,27 @@
-import React, { useEffect, useState } from "react";
-import { energyData } from "../energy-data";
-import AuroraDyeingUtilities from "@/api/filter/utitlis/auroraDyeingUtilities";
+import React from "react";
 
-const TopCard = () => {
-  const [utilis, setUtilis] = useState({});
-  useEffect(() => {
-    const data = async (data) => {
-      const res = await AuroraDyeingUtilities(data);
-      setUtilis(res);
-    };
+const TopCard = ({ utilis }) => {
+  const formatValue = (value) => {
+    const number = Number(value);
 
-    data();
-  }, []);
-  // console.log(utilis);
-  const utilityCount = Array.isArray(utilis?.dataType) ? utilis?.dataType : 0;
+    if (!Number.isFinite(number)) {
+      return "0";
+    }
 
-  const electricalData = energyData?.find((item) => item.id === "electrical");
+    if (Math.abs(number) >= 1_000_000_000) {
+      return `${(number / 1_000_000_000).toFixed(1)}B`;
+    }
 
-  const currentLoad = electricalData?.value || 0;
-  const currentUnit = electricalData?.unit || "kW";
+    if (Math.abs(number) >= 1_000_000) {
+      return `${(number / 1_000_000).toFixed(1)}M`;
+    }
+
+    if (Math.abs(number) >= 1_000) {
+      return `${(number / 1_000).toFixed(1)}K`;
+    }
+
+    return number.toFixed(1);
+  };
 
   return (
     <section className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -66,14 +69,18 @@ const TopCard = () => {
           <span className="text-xs text-slate-400">Current Load</span>
 
           <span className="rounded-md bg-blue-400/10 px-2 py-1 text-[10px] font-medium text-blue-300">
-            {currentUnit}
+            kW
           </span>
         </div>
 
-        <div className="mt-2 flex items-end gap-2">
-          <span className="text-2xl font-bold text-white">{currentLoad}</span>
+        <div className="mt-2 flex min-w-0 items-end gap-2">
+          <span className="truncate text-2xl font-bold text-white">
+            {formatValue(utilis?.totalValue?.value)}
+          </span>
 
-          <span className="pb-1 text-xs text-slate-500">electrical load</span>
+          <span className="shrink-0 pb-1 text-xs text-slate-500">
+            electrical load
+          </span>
         </div>
       </div>
     </section>

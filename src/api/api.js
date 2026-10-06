@@ -27,3 +27,21 @@ export const getEnergyLog = async () => {
     };
   }
 };
+
+export const bacnetRead = async (instances) => {
+  try {
+    const res = await axios.post(`${ServerIP}/bacnet/read`, {
+      instances,
+    });
+
+    return res.data?.data;
+  } catch (error) {
+    return {
+      success: false,
+      message:
+        error?.response?.data?.message ||
+        error?.message ||
+        "BACnet read failed",
+    };
+  }
+};
