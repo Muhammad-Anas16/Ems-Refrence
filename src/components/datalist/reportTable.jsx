@@ -18,108 +18,73 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-const meterData = [
-  {
-    id: 1,
-    name: "Main Incomer",
-    status: "running",
-    power: 1245.8,
-    current: 372.5,
-    consumption: 18452.7,
-    lastUpdate: "Now",
-  },
-  {
-    id: 2,
-    name: "Spinning Unit",
-    status: "running",
-    power: 686.4,
-    current: 284.2,
-    consumption: 14238.5,
-    lastUpdate: "Now",
-  },
-  {
-    id: 3,
-    name: "Weaving Unit",
-    status: "running",
-    power: 554.7,
-    current: 236.8,
-    consumption: 11872.3,
-    lastUpdate: "1 min ago",
-  },
-  {
-    id: 4,
-    name: "Dyeing Unit",
-    status: "stopped",
-    power: 0,
-    current: 0,
-    consumption: 9845.2,
-    lastUpdate: "2 min ago",
-  },
-  {
-    id: 5,
-    name: "Compressor",
-    status: "running",
-    power: 292.6,
-    current: 141.7,
-    consumption: 7654.8,
-    lastUpdate: "Now",
-  },
-  {
-    id: 6,
-    name: "Boiler House",
-    status: "running",
-    power: 428.3,
-    current: 196.4,
-    consumption: 8924.6,
-    lastUpdate: "1 min ago",
-  },
-  {
-    id: 7,
-    name: "Finishing Unit",
-    status: "stopped",
-    power: 0,
-    current: 0,
-    consumption: 6238.4,
-    lastUpdate: "4 min ago",
-  },
-  {
-    id: 8,
-    name: "Utility Panel",
-    status: "running",
-    power: 176.9,
-    current: 117.3,
-    consumption: 5487.9,
-    lastUpdate: "Now",
-  },
-];
+const ReportTable = ({ data = [] }) => {
+  // --------------------------------
+  // Safe Data
+  // --------------------------------
 
-const formatNumber = (value) => {
-  return value.toLocaleString(undefined, {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
-  });
-};
+  const safeData = Array.isArray(data) ? data : [];
 
-const ReportTable = () => {
-  const totalPower = meterData.reduce((total, meter) => total + meter.power, 0);
+  // --------------------------------
+  // Number Formatter
+  // --------------------------------
 
-  const totalCurrent = meterData.reduce(
-    (total, meter) => total + meter.current,
+  const formatNumber = (value) => {
+    const safeValue =
+      value !== null && value !== undefined && !isNaN(Number(value))
+        ? Number(value)
+        : 0;
+
+    return safeValue.toLocaleString(undefined, {
+      minimumFractionDigits: 1,
+      maximumFractionDigits: 1,
+    });
+  };
+
+  // --------------------------------
+  // Totals
+  // --------------------------------
+
+  const totalPower = safeData.reduce(
+    (total, meter) =>
+      total +
+      (meter?.power !== null &&
+      meter?.power !== undefined &&
+      !isNaN(Number(meter?.power))
+        ? Number(meter?.power)
+        : 0),
     0,
   );
 
-  const totalConsumption = meterData.reduce(
-    (total, meter) => total + meter.consumption,
+  const totalCurrent = safeData.reduce(
+    (total, meter) =>
+      total +
+      (meter?.current !== null &&
+      meter?.current !== undefined &&
+      !isNaN(Number(meter?.current))
+        ? Number(meter?.current)
+        : 0),
     0,
   );
 
-  const runningMeters = meterData.filter(
-    (meter) => meter.status === "running",
+  const totalConsumption = safeData.reduce(
+    (total, meter) =>
+      total +
+      (meter?.consumption !== null &&
+      meter?.consumption !== undefined &&
+      !isNaN(Number(meter?.consumption))
+        ? Number(meter?.consumption)
+        : 0),
+    0,
+  );
+
+  const runningMeters = safeData.filter(
+    (meter) =>
+      (meter?.status || "").toLowerCase() === "running" ||
+      (meter?.status || "").toLowerCase() === "on",
   ).length;
 
-  const stoppedMeters = meterData.filter(
-    (meter) => meter.status === "stopped",
-  ).length;
+  const stoppedMeters = safeData.length - runningMeters;
 
   return (
     <Card
@@ -128,30 +93,34 @@ const ReportTable = () => {
         min-w-0
         overflow-hidden
         border-slate-800
-        bg-slate-900
+        bg-[#0b1424]
         text-white
-        shadow-lg
-        shadow-black/20
+        shadow-md
       "
     >
+      {/* Header */}
       <CardHeader className="border-b border-slate-800">
-        <CardTitle>Energy Meter Details</CardTitle>
+        <CardTitle className="text-sm font-semibold">
+          Energy Meter Details
+        </CardTitle>
 
-        <CardDescription className="text-slate-400">
+        <CardDescription className="text-xs text-slate-500">
           Real-time meter status and energy data
         </CardDescription>
       </CardHeader>
 
+      {/* Table */}
       <CardContent className="p-0">
         <div className="overflow-x-auto">
           <Table>
+            {/* Table Header */}
             <TableHeader>
               <TableRow className="border-slate-800 hover:bg-transparent">
-                <TableHead className="min-w-[160px] text-slate-400">
+                <TableHead className="min-w-[180px] text-slate-400">
                   Meter
                 </TableHead>
 
-                <TableHead className="min-w-[120px] text-slate-400">
+                <TableHead className="min-w-[100px] text-slate-400">
                   Status
                 </TableHead>
 
@@ -160,88 +129,107 @@ const ReportTable = () => {
                 <TableHead className="text-right text-slate-400">A</TableHead>
 
                 <TableHead className="text-right text-slate-400">kWh</TableHead>
-
-                <TableHead className="text-right text-slate-400">
-                  Update
-                </TableHead>
               </TableRow>
             </TableHeader>
 
             <TableBody>
-              {meterData.map((meter) => {
-                const isRunning = meter.status === "running";
-
-                return (
-                  <TableRow
-                    key={meter.id}
-                    className="border-slate-800 hover:bg-slate-800/40"
+              {/* No Data */}
+              {safeData.length === 0 ? (
+                <TableRow className="border-slate-800 hover:bg-transparent">
+                  <TableCell
+                    colSpan={5}
+                    className="h-32 text-center text-sm text-slate-500"
                   >
-                    <TableCell className="font-medium text-white">
-                      {meter.name}
-                    </TableCell>
+                    No meter data available
+                  </TableCell>
+                </TableRow>
+              ) : (
+                safeData.map((meter, index) => {
+                  const status = (meter?.status || "").toString().toLowerCase();
 
-                    <TableCell>
-                      {isRunning ? (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-400">
-                          <CheckCircle2 className="h-3.5 w-3.5" />
-                          Running
-                        </span>
-                      ) : (
-                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-red-400">
-                          <CircleOff className="h-3.5 w-3.5" />
-                          Stopped
-                        </span>
-                      )}
-                    </TableCell>
+                  const isOn = status === "running" || status === "on";
 
-                    <TableCell className="text-right font-semibold text-white">
-                      {formatNumber(meter.power)}
-                    </TableCell>
+                  return (
+                    <TableRow
+                      key={meter?.id || index}
+                      className="border-slate-800 hover:bg-slate-800/40"
+                    >
+                      {/* Meter */}
+                      <TableCell className="font-medium text-white">
+                        {meter?.name || meter?.meter_name || "Unknown Meter"}
+                      </TableCell>
 
-                    <TableCell className="text-right font-semibold text-white">
-                      {formatNumber(meter.current)}
-                    </TableCell>
+                      {/* Status */}
+                      <TableCell>
+                        {isOn ? (
+                          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400">
+                            <CheckCircle2 className="h-3.5 w-3.5" />
+                            ON
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-red-400">
+                            <CircleOff className="h-3.5 w-3.5" />
+                            OFF
+                          </span>
+                        )}
+                      </TableCell>
 
-                    <TableCell className="text-right font-semibold text-white">
-                      {formatNumber(meter.consumption)}
-                    </TableCell>
+                      {/* kW */}
+                      <TableCell className="text-right font-semibold text-white">
+                        {formatNumber(meter?.power || 0)}
+                      </TableCell>
 
-                    <TableCell className="text-right text-xs text-slate-400">
-                      {meter.lastUpdate}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                      {/* Ampere */}
+                      <TableCell className="text-right font-semibold text-white">
+                        {formatNumber(meter?.current || 0)}
+                      </TableCell>
 
-              <TableRow className="border-slate-700 bg-slate-800/70 font-bold hover:bg-slate-800/70">
-                <TableCell className="text-white">Total</TableCell>
+                      {/* kWh */}
+                      <TableCell className="text-right font-semibold text-white">
+                        {formatNumber(meter?.consumption || 0)}
+                      </TableCell>
+                    </TableRow>
+                  );
+                })
+              )}
 
-                <TableCell>
-                  <div className="flex flex-col gap-1 text-xs">
-                    <span className="text-emerald-400">
-                      {runningMeters} Running
-                    </span>
+              {/* Total */}
+              {safeData.length > 0 && (
+                <TableRow
+                  className="
+                    border-slate-700
+                    bg-slate-800/70
+                    font-bold
+                    hover:bg-slate-800/70
+                  "
+                >
+                  <TableCell className="text-white">Total</TableCell>
 
-                    <span className="text-red-400">
-                      {stoppedMeters} Stopped
-                    </span>
-                  </div>
-                </TableCell>
+                  <TableCell>
+                    <div className="flex items-center gap-2 text-xs font-semibold">
+                      <span className="text-emerald-400">
+                        {runningMeters} ON
+                      </span>
 
-                <TableCell className="text-right text-white">
-                  {formatNumber(totalPower)}
-                </TableCell>
+                      <span className="text-slate-600">/</span>
 
-                <TableCell className="text-right text-white">
-                  {formatNumber(totalCurrent)}
-                </TableCell>
+                      <span className="text-red-400">{stoppedMeters} OFF</span>
+                    </div>
+                  </TableCell>
 
-                <TableCell className="text-right text-white">
-                  {formatNumber(totalConsumption)}
-                </TableCell>
+                  <TableCell className="text-right text-white">
+                    {formatNumber(totalPower)}
+                  </TableCell>
 
-                <TableCell />
-              </TableRow>
+                  <TableCell className="text-right text-white">
+                    {formatNumber(totalCurrent)}
+                  </TableCell>
+
+                  <TableCell className="text-right text-white">
+                    {formatNumber(totalConsumption)}
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
           </Table>
         </div>

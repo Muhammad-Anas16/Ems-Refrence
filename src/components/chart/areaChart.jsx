@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import {
   Area,
@@ -8,97 +8,179 @@ import {
 } from "recharts";
 
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
+import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-const chartData = [
-  { time: "12 AM", consumption: 0 },
-  { time: "02 AM", consumption: 320 },
-  { time: "04 AM", consumption: 680 },
-  { time: "06 AM", consumption: 1180 },
-  { time: "08 AM", consumption: 1890 },
-  { time: "10 AM", consumption: 2760 },
-  { time: "12 PM", consumption: 3610 },
-  { time: "02 PM", consumption: 4480 },
-  { time: "04 PM", consumption: 5350 },
-  { time: "06 PM", consumption: 6210 },
-  { time: "08 PM", consumption: 7020 },
-  { time: "10 PM", consumption: 7860 },
-];
+const AreaChartCard = ({ data, dataColor, dataStroke, label, unit }) => {
+  // --------------------------------
+  // Safe / fallback values
+  // --------------------------------
 
-const chartConfig = {
-  consumption: {
-    label: "Consumption",
-    color: "var(--chart-1)",
-  },
-};
+  const color =
+    dataColor && typeof dataColor === "string"
+      ? dataColor
+      : "rgba(59, 130, 246, 0.25)";
 
-const AreaChart = () => {
+  const stroke =
+    dataStroke && typeof dataStroke === "string"
+      ? dataStroke
+      : "rgba(59, 130, 246, 0.9)";
+
+  const title = label && typeof label === "string" ? label : "Consumption";
+
+  const unitValue = unit && typeof unit === "string" ? unit : "unit";
+
+  // --------------------------------
+  // Prepare Chart Data
+  // --------------------------------
+
+  const chartData = useMemo(() => {
+    /*
+      Agar data array nahi hai ya empty hai
+      to 12 zero values show hongi.
+    */
+
+    const safeData =
+      Array.isArray(data) && data.length > 0 ? data : Array(12).fill(0);
+
+    const now = new Date();
+
+    // 2 hours interval
+    const intervalMinutes = 120;
+
+    return safeData.map((item, index) => {
+      // Agar item object hai to value lo
+      // warna direct number use karo
+      const rawValue =
+        typeof item === "object" && item !== null ? item.value : item;
+
+      const value =
+        rawValue !== null && rawValue !== undefined && !isNaN(Number(rawValue))
+          ? Number(rawValue)
+          : 0;
+
+      /*
+        Agar API se timestamp mila hai
+        to usko use karenge.
+        Warna automatically current time
+        se backwards calculate hoga.
+      */
+
+      const itemTime =
+        typeof item === "object" && item !== null && item.timestamp
+          ? new Date(item.timestamp)
+          : new Date(
+              now.getTime() -
+                (safeData.length - 1 - index) * intervalMinutes * 60 * 1000,
+            );
+
+      return {
+        time: itemTime.toLocaleTimeString("en-US", {
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true,
+        }),
+
+        consumption: value,
+      };
+    });
+  }, [data]);
+
+  // --------------------------------
+  // Chart Config
+  // --------------------------------
+
+  const chartConfig = useMemo(
+    () => ({
+      consumption: {
+        label: title,
+        color: color,
+      },
+    }),
+    [title, color],
+  );
+
+  // --------------------------------
+  // Total
+  // --------------------------------
+
+  const totalConsumption = useMemo(() => {
+    return chartData.reduce((total, item) => total + item.consumption, 0);
+  }, [chartData]);
+
   return (
-    <div className="w-full">
-      {/* Chart Title */}
-      <div className="mb-3 flex items-center justify-between">
-        <div>
-          <p className="text-sm font-semibold text-white">Energy Consumption</p>
+    <Card className="w-full border-slate-800 bg-[#0b1424] text-white shadow-md">
+      {/* Header */}
+      <CardHeader className="pb-2">
+        <CardTitle className="text-sm font-semibold">{title}</CardTitle>
 
-          <p className="mt-1 text-xs text-slate-400">
-            Cumulative consumption today
-          </p>
-        </div>
-
-        <div className="text-right">
-          <p className="text-lg font-bold text-white">7,860</p>
-
-          <p className="text-[11px] text-slate-500">kWh</p>
-        </div>
-      </div>
+        <CardDescription className="text-xs text-slate-500">
+          {title} consumption trend
+        </CardDescription>
+      </CardHeader>
 
       {/* Chart */}
-      <ChartContainer config={chartConfig} className="h-[230px] w-full">
-        <RechartsAreaChart
-          accessibilityLayer
-          data={chartData}
-          margin={{
-            left: 2,
-            right: 2,
-            top: 10,
-            bottom: 0,
-          }}
-        >
-          <CartesianGrid vertical={false} />
+      <CardContent className="pt-2">
+        <ChartContainer config={chartConfig} className="h-[230px] w-full">
+          <RechartsAreaChart
+            accessibilityLayer
+            data={chartData}
+            margin={{
+              left: 2,
+              right: 2,
+              top: 10,
+              bottom: 0,
+            }}
+          >
+            <CartesianGrid vertical={false} className="stroke-slate-800" />
 
-          <XAxis
-            dataKey="time"
-            tickLine={false}
-            axisLine={false}
-            tickMargin={8}
-            tick={{ fontSize: 10 }}
-          />
+            <XAxis
+              dataKey="time"
+              tickLine={false}
+              axisLine={false}
+              tickMargin={8}
+              tick={{
+                fontSize: 10,
+                fill: "#64748b",
+              }}
+            />
 
-          <ChartTooltip
-            cursor={false}
-            content={
-              <ChartTooltipContent
-                indicator="line"
-                formatter={(value) => `${value} kWh`}
-              />
-            }
-          />
+            <ChartTooltip
+              cursor={false}
+              content={
+                <ChartTooltipContent
+                  indicator="line"
+                  formatter={(value) =>
+                    `${Number(value || 0).toLocaleString()} ${unitValue}`
+                  }
+                />
+              }
+            />
 
-          <Area
-            dataKey="consumption"
-            type="monotone"
-            fill="var(--color-consumption)"
-            fillOpacity={0.25}
-            stroke="var(--color-consumption)"
-            strokeWidth={2}
-          />
-        </RechartsAreaChart>
-      </ChartContainer>
-    </div>
+            <Area
+              dataKey="consumption"
+              type="monotone"
+              fill={color}
+              fillOpacity={0.25}
+              stroke={stroke}
+              strokeWidth={2}
+              dot={false}
+            />
+          </RechartsAreaChart>
+        </ChartContainer>
+      </CardContent>
+    </Card>
   );
 };
 
-export default AreaChart;
+export default AreaChartCard;
