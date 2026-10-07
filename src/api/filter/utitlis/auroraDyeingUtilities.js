@@ -86,10 +86,10 @@ const AuroraDyeingUtilities = async (type = "Electricity") => {
     ];
 
     const dataInstance = getBACnetInstances(dyeingData);
-    console.log(dataInstance);
+    // console.log(dataInstance);
     const filterMeter = EmsDataFile.meters.map((item) => item.instance);
     // console.log("default", EmsDataFile.meters);
-    console.log("default", filterMeter);
+    // console.log("default", filterMeter);
 
     // console.log("BACnet Instances:", dataInstance);
 

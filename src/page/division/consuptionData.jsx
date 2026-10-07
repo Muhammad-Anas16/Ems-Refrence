@@ -9,15 +9,26 @@ const ConsumptionData = () => {
   const [utilis, setUtilis] = useState({});
 
   useEffect(() => {
-    const data = async (data) => {
-      const res = await AuroraDyeingUtilities(data);
-      setUtilis(res);
+    const data = async () => {
+      const { consumption, dataType, data } = await AuroraDyeingUtilities();
+
+      console.log("consumption", consumption);
+      // console.log("dataType", dataType);
+      // console.log("data", data);
+
+      dataType.forEach((type) => {
+        const typeData = data[type];
+
+        console.log("Type:", type);
+        console.log("typeData:", typeData);
+      });
+      // setUtilis(res);
     };
 
     data();
   }, []);
 
-  console.log(utilis);
+  // console.log(utilis);
 
   return (
     <main className="min-h-screen bg-[#070C11] text-white font-sans overflow-hidden">

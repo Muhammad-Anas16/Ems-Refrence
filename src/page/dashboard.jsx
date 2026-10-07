@@ -1,13 +1,12 @@
 import TopCard from "../components/topCard";
-import QuickInfoCard from "../components/dashboard/DivisionInfoCard";
 import AlertsCard from "../components/dashboard/AlertsCard";
 import BuildingEnergyVisual from "../components/dashboard/BuildingEnergyVisual";
 import ConsumptionChart from "../components/dashboard/ConsumptionChart";
 import ResourceMix from "../components/dashboard/ResourceMix";
-import TopConsumers from "../components/dashboard/TopConsumers";
 import EnergySummary from "../components/dashboard/EnergySummary";
 
 import { statCards1, statCards2 } from "../data/dashboardData";
+import DivisionInfoCard from "@/components/dashboard/DivisionInfoCard";
 
 const DashboardPage = () => {
   return (
@@ -38,7 +37,7 @@ const DashboardPage = () => {
         =================================================== */}
 
         <div className="space-y-4">
-          <QuickInfoCard />
+          <DivisionInfoCard />
 
           <AlertsCard />
         </div>
@@ -59,10 +58,7 @@ const DashboardPage = () => {
 
         <div className="min-w-0 space-y-4">
           <ConsumptionChart />
-
-          <ResourceMix />
-
-          <TopConsumers />
+          <ResourceMix /> // pieChart Component
         </div>
       </section>
     </div>

@@ -4,7 +4,6 @@ import Navbar from "./components/Navbar";
 import DashboardPage from "./page/dashboard";
 import { Route, Routes } from "react-router";
 import ConsumptionData from "./page/division/consuptionData";
-import GenerationPage from "./page/division/generationPage";
 import ReportPage from "./page/division/reportPage";
 
 function App() {
@@ -13,9 +12,11 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<DashboardPage />} />
-        <Route path="/energy" element={<GenerationPage />} />
-        <Route path="/energy/consumption" element={<ConsumptionData />} />
-        <Route path="/energy/consumption/list" element={<ReportPage />} />
+
+        <Route path="/:divisionName">
+          <Route index element={<ConsumptionData />} />
+          <Route path="consumption/list" element={<ReportPage />} />
+        </Route>
       </Routes>
     </main>
   );
