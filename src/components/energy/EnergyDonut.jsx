@@ -7,7 +7,7 @@ const EnergyDonut = () => {
   return (
     <div className="relative mx-auto w-full max-w-[500px] aspect-square flex items-center justify-center my-4">
       {/* Background Radial Glow */}
-      <div className="pointer-events-none absolute inset-[15%] rounded-full bg-blue-600/10 blur-3xl" />
+      <div className="pointer-events-none absolute inset-[15%] rounded-full bg-transparent blur-3xl" />
 
       {/* Recharts Pie Chart */}
       <div className="relative w-full h-full">
@@ -52,7 +52,7 @@ const EnergyDonut = () => {
 
         {/* Center Isometric Graphic */}
         <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="flex items-center justify-center rounded-full bg-[#050b13]/80 p-4 border border-white/5 backdrop-blur-sm shadow-2xl">
+          <div className="flex items-center justify-center rounded-full bg-transparent p-4 border border-white/5 backdrop-blur-sm shadow-2xl">
             {/* <IsometricMachine /> */}
           </div>
         </div>
