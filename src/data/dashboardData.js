@@ -29,7 +29,7 @@ export const timeRanges = ["Last 24 Hours", "Last 7 Days", "Last 30 Days"];
 // TOP STAT CARDS
 // --------------------------------------------------
 
-export const statCards = [
+export const statCards1 = [
   {
     id: 1,
     title: "Total KGL Generation",
@@ -63,6 +63,9 @@ export const statCards = [
     icon: "consumption",
     iconTone: "blue",
   },
+];
+
+export const statCards2 = [
   {
     id: 4,
     title: "Total Water",
@@ -85,8 +88,19 @@ export const statCards = [
     icon: "air",
     iconTone: "violet",
   },
-  {
+    {
     id: 6,
+    title: "Total Gas",
+    value: "8,720",
+    unit: "m³",
+    change: "6%",
+    trend: "up",
+    comparison: "vs. yesterday",
+    icon: "air",
+    iconTone: "violet",
+  },
+  {
+    id: 7,
     title: "Total Steam",
     value: "4,680",
     unit: "tons",
@@ -466,7 +480,8 @@ export const dashboardData = {
   buildings,
   floors,
   timeRanges,
-  statCards,
+  statCards1,
+  statCards2,
   alerts,
   buildingEnergy,
   energyConsumption,

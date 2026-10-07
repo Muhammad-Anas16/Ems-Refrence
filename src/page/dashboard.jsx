@@ -7,7 +7,7 @@ import ResourceMix from "../components/dashboard/ResourceMix";
 import TopConsumers from "../components/dashboard/TopConsumers";
 import EnergySummary from "../components/dashboard/EnergySummary";
 
-import { statCards } from "../data/dashboardData";
+import { statCards1, statCards2 } from "../data/dashboardData";
 
 const DashboardPage = () => {
   return (
@@ -16,8 +16,14 @@ const DashboardPage = () => {
           TOP CARDS
       ===================================================== */}
 
+      <section className="mb-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+        {statCards1.map((card) => (
+          <TopCard key={card.id} card={card} />
+        ))}
+      </section>
+
       <section className="mb-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        {statCards.map((card) => (
+        {statCards2.map((card) => (
           <TopCard key={card.id} card={card} />
         ))}
       </section>
