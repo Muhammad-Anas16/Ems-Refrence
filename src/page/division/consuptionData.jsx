@@ -7,6 +7,7 @@ import AuroraDyeingUtilities from "@/api/filter/utitlis/auroraDyeingUtilities";
 
 const ConsumptionData = () => {
   const [utilis, setUtilis] = useState({});
+
   useEffect(() => {
     const data = async (data) => {
       const res = await AuroraDyeingUtilities(data);
@@ -15,14 +16,14 @@ const ConsumptionData = () => {
 
     data();
   }, []);
+
   console.log(utilis);
 
   return (
-    <main className="min-h-screen bg-[#050b13] text-white font-sans overflow-hidden">
+    <main className="min-h-screen bg-[#070C11] text-white font-sans overflow-hidden">
       {/* Main Content */}
       <div className="relative z-10 mx-auto flex min-h-screen w-full max-w-[1500px] flex-col px-4 py-5 sm:px-6 lg:px-8">
         {/* Top Summary Cards */}
-
         <TopCard utilis={utilis} />
 
         {/* Main Dashboard */}

@@ -3,7 +3,7 @@ import React from "react";
 
 const GenerationPage = () => {
   return (
-    <main className="bg-transparent text-white flex flex-col justify-between font-sans">
+    <main className="min-h-screen bg-[#070a0e] text-white flex flex-col font-sans">
       <section className="flex-1 flex items-center justify-center py-6">
         <EnergyDonut />
       </section>

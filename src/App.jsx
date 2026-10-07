@@ -11,13 +11,6 @@ function App() {
   return (
     <main className="min-h-screen bg-[#070a0e] text-white">
       <Navbar />
-
-      {/* <LoginDialog
-        open={openDialog}
-        onOpenChange={setOpenDialog}
-        onSubmit={handleLogin}
-      /> */}
-
       <Routes>
         <Route path="/" element={<DashboardPage />} />
         <Route path="/energy" element={<GenerationPage />} />

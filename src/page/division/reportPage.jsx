@@ -8,7 +8,7 @@ import AreaChartCard from "@/components/chart/areaChart";
 
 const ReportPage = () => {
   return (
-    <div className="dark min-h-screen w-full bg-slate-950 text-white">
+    <div className="dark min-h-screen w-full bg-[#070C11] text-white">
       <main className="mx-auto w-full max-w-[1600px] p-4 sm:p-6 lg:p-8">
         {/* -------------------------------- */}
         {/* KPI Cards */}
