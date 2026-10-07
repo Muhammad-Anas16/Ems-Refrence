@@ -136,11 +136,6 @@ const BuildingEnergyVisual = () => {
           <EnergyValue key={item.id} item={item} />
         ))}
 
-        {/* BOTTOM LABEL */}
-
-        <div className="absolute bottom-4 left-1/2 z-20 -translate-x-1/2 rounded-full border border-white/10 bg-[#071017]/80 px-3 py-1.5 text-[10px] text-slate-400 backdrop-blur-md">
-          Real-time energy overview
-        </div>
       </div>
     </Panel>
   );
