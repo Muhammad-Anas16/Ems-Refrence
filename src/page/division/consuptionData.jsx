@@ -22,7 +22,7 @@ const ConsumptionData = () => {
     data();
   }, []);
 
-  // console.log(utilis);
+  console.log(utilis);
 
   return (
     <main className="min-h-screen w-full overflow-x-hidden bg-[#070C11] font-sans text-white">

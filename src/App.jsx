@@ -5,6 +5,7 @@ import DashboardPage from "./page/dashboard";
 import { Route, Routes } from "react-router";
 import ConsumptionData from "./page/division/consuptionData";
 import ReportPage from "./page/division/reportPage";
+import TestDashboard from "./page/textPage";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<DashboardPage />} />
+        {/* <Route path="/" element={<TestDashboard />} /> */}
 
         <Route path="/:divisionName">
           <Route index element={<ConsumptionData />} />
