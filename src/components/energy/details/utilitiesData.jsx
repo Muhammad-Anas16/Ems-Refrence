@@ -33,8 +33,13 @@ import {
   Waves,
   CircleDot,
 } from "lucide-react";
+import { useLocation, useNavigate } from "react-router";
 
 const UtilitiesData = ({ data }) => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // console.log(data);
   const getTypeConfig = (type) => {
     const key = String(type || "")
       .toLowerCase()
@@ -151,6 +156,7 @@ const UtilitiesData = ({ data }) => {
               ${config.glowClass}
               hover:shadow-[0_8px_25px_rgba(0,0,0,0.18)] cursor-pointer
             `}
+            onClick={() => navigate(`${location.pathname}/${type}`)}
           >
             {/* Subtle hover glow */}
             <div

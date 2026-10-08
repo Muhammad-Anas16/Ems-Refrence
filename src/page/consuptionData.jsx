@@ -21,7 +21,7 @@ const ConsumptionData = () => {
     refetch,
   } = useAuroraDyeingUtilities("Dyeing");
 
-  console.log("Consumption Data =>", utilis);
+  // console.log("Consumption Data =>", utilis);
 
   // Initial loading
   if (isPending) {
