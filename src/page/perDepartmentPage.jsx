@@ -32,8 +32,8 @@ import DataUpdating from "@/components/common/DataUpdating";
 const PerDepartmentPage = () => {
   const { divisionName, department } = useParams();
 
-  console.log("Division =>", divisionName);
-  console.log("Department =>", department);
+  // console.log("Division =>", divisionName);
+  // console.log("Department =>", department);
 
   const division = useMemo(() => {
     return decodeURIComponent(divisionName || "")
