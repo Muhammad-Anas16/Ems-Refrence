@@ -1,31 +1,42 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import ReportTable from "@/components/datalist/reportTable";
-
 import CardsComponent from "@/components/card/cards";
 import PieChartCard from "@/components/chart/pieChartText";
 import AreaChartCard from "@/components/chart/areaChart";
-import AuroraUtilities from "@/api/filter/auroraDyeingUtilities";
+
+import { useAuroraDyeingUtilities } from "@/hooks/useAuroraDyeingUtilities";
+import DataLoading from "@/components/common/DataLoading";
+import DataError from "@/components/common/DataError";
+import DataUpdating from "@/components/common/DataUpdating";
 
 const ReportPage = () => {
-  const [systemData, setSystemData] = useState({});
+  const {
+    data: systemData,
+    isPending,
+    isError,
+    error,
+    isFetching,
+    refetch,
+  } = useAuroraDyeingUtilities("Dyeing");
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await AuroraUtilities();
-        setSystemData(res);
-      } catch (error) {
-        console.error("Report Page Data Error:", error);
-        setSystemData({});
-      }
-    };
+  console.log("Report Page Data =>", systemData);
 
-    fetchData();
-  }, []);
+  // Initial loading
+  if (isPending) {
+    return <DataLoading />;
+  }
+
+  // Error state
+  if (isError) {
+    return <DataError error={error} onRetry={refetch} />;
+  }
 
   return (
     <div className="dark min-h-screen w-full bg-[#070C11] text-white">
+      {/* Background Update Indicator */}
+      {isFetching && <DataUpdating />}
+
       <main className="mx-auto w-full max-w-[1600px] p-4 sm:p-6 lg:p-8">
         {/* -------------------------------- */}
         {/* KPI Cards */}

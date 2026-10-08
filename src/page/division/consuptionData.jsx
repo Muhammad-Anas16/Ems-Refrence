@@ -1,31 +1,43 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import EnergyDonut from "@/components/energy/EnergyDonut";
 import UtilitiesData from "@/components/energy/details/utilitiesData";
 import TotalLoad from "@/components/energy/details/totalLoad";
 import TopCard from "@/components/energy/details/topCard";
-import AuroraUtilities from "@/api/filter/auroraDyeingUtilities";
 import BuildingEnergyVisual from "@/components/dashboard/BuildingEnergyVisual";
 import AreaChartCard from "@/components/chart/areaChart";
 import ReportTable from "@/components/datalist/reportTable";
+import { useAuroraDyeingUtilities } from "@/hooks/useAuroraDyeingUtilities";
+import DataLoading from "@/components/common/DataLoading";
+import DataError from "@/components/common/DataError";
+import DataUpdating from "@/components/common/DataUpdating";
 
 const ConsumptionData = () => {
-  const [utilis, setUtilis] = useState({});
+  const {
+    data: utilis,
+    isPending,
+    isError,
+    error,
+    isFetching,
+    refetch,
+  } = useAuroraDyeingUtilities("Dyeing");
 
-  useEffect(() => {
-    const data = async () => {
-      const res = await AuroraUtilities();
+  console.log("Consumption Data =>", utilis);
 
-      // console.log("abc", res);
-      setUtilis(res);
-    };
+  // Initial loading
+  if (isPending) {
+    return <DataLoading />;
+  }
 
-    data();
-  }, []);
-
-  console.log(utilis);
+  // Error state
+  if (isError) {
+    return <DataError error={error} onRetry={refetch} />;
+  }
 
   return (
     <main className="min-h-screen w-full overflow-x-hidden bg-[#070C11] font-sans text-white">
+      {/* Background update indicator */}
+      {isFetching && <DataUpdating />}
+
       {/* Main Content */}
       <div
         className="
@@ -230,8 +242,7 @@ const ConsumptionData = () => {
                     shadow-[0_0_35px_rgba(0,0,0,0.16)]
                   "
                 >
-                  {/* <AreaChartCard label={"Division"} data={utilis} /> */}
-                  <AreaChartCard data={utilis} label={"Division"} unit="kWh" />
+                  <AreaChartCard data={utilis} label="Division" unit="kWh" />
                 </div>
 
                 {/* ============================================= */}
@@ -250,7 +261,11 @@ const ConsumptionData = () => {
                     shadow-[0_0_35px_rgba(0,0,0,0.16)]
                   "
                 >
-                  <ReportTable data={utilis} showMeters={5} headerAllow={true} />
+                  <ReportTable
+                    data={utilis}
+                    showMeters={5}
+                    headerAllow={true}
+                  />
                 </div>
               </div>
             </div>
