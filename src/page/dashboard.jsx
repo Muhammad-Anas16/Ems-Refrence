@@ -47,7 +47,7 @@ const DashboardPage = () => {
         =================================================== */}
 
         <div className="min-w-0 space-y-4">
-          <BuildingEnergyVisual building="Main Hospital" />
+          <BuildingEnergyVisual />
 
           <EnergySummary />
         </div>
