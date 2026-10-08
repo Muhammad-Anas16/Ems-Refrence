@@ -15,7 +15,7 @@ function App() {
 
         <Route path="/:divisionName">
           <Route index element={<ConsumptionData />} />
-          <Route path="consumption/list" element={<ReportPage />} />
+          <Route path="/:divisionName/list" element={<ReportPage />} />
         </Route>
       </Routes>
     </main>

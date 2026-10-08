@@ -504,7 +504,8 @@ const ConsumptionData = () => {
                     shadow-[0_0_35px_rgba(0,0,0,0.16)]
                   "
                 >
-                  <AreaChartCard label={"Division"} />
+                  {/* <AreaChartCard label={"Division"} data={utilis} /> */}
+                  <AreaChartCard data={utilis} label={"Division"} unit="kWh" />
                 </div>
 
                 {/* ============================================= */}
@@ -523,7 +524,7 @@ const ConsumptionData = () => {
                     shadow-[0_0_35px_rgba(0,0,0,0.16)]
                   "
                 >
-                  <ReportTable />
+                  <ReportTable data={utilis} showMeters={5} headerAllow={true} />
                 </div>
               </div>
             </div>

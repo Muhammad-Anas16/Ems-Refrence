@@ -80,7 +80,7 @@ import React from "react";
 import PieChartCard from "../chart/pieChartText";
 
 const EnergyDonut = ({ data }) => {
-  console.log("EnergyDonut Data:", data);
+  // console.log("EnergyDonut Data:", data);
 
   return (
     <div className="w-full">
