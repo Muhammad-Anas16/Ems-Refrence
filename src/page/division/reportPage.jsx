@@ -32,7 +32,7 @@ const ReportPage = () => {
         {/* -------------------------------- */}
 
         <section className="w-full">
-          <CardsComponent />
+          <CardsComponent data={systemData} />
         </section>
 
         {/* -------------------------------- */}
