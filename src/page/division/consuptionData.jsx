@@ -3,26 +3,17 @@ import EnergyDonut from "@/components/energy/EnergyDonut";
 import UtilitiesData from "@/components/energy/details/utilitiesData";
 import TotalLoad from "@/components/energy/details/totalLoad";
 import TopCard from "@/components/energy/details/topCard";
-import AuroraDyeingUtilities from "@/api/filter/utitlis/auroraDyeingUtilities";
+import AuroraUtilities from "@/api/filter/auroraDyeingUtilities";
 
 const ConsumptionData = () => {
   const [utilis, setUtilis] = useState({});
 
   useEffect(() => {
     const data = async () => {
-      const { consumption, dataType, data } = await AuroraDyeingUtilities();
+      const res = await AuroraUtilities();
 
-      console.log("consumption", consumption);
-      // console.log("dataType", dataType);
-      // console.log("data", data);
-
-      dataType.forEach((type) => {
-        const typeData = data[type];
-
-        console.log("Type:", type);
-        console.log("typeData:", typeData);
-      });
-      // setUtilis(res);
+      // console.log("abc", res);
+      setUtilis(res);
     };
 
     data();
@@ -51,7 +42,7 @@ const ConsumptionData = () => {
                 {/* Decorative center glow */}
                 <div className="pointer-events-none absolute h-72 w-72 rounded-full bg-cyan-500/[0.025] blur-3xl" />
 
-                <EnergyDonut />
+                <EnergyDonut data={utilis?.departments?.data} />
               </div>
             </div>
 

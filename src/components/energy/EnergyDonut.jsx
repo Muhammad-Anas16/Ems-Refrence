@@ -4,7 +4,7 @@ import { ResponsiveContainer, PieChart, Pie, Cell, Tooltip } from "recharts";
 import EnergyPill from "./EnergyPill";
 import { energyData } from "./energy-data";
 
-const EnergyDonut = () => {
+const EnergyDonut = (data) => {
   return (
     <div className="relative mx-auto my-4 flex aspect-square w-full max-w-[500px] items-center justify-center bg-[#070a0e]">
       {/* Donut Chart */}

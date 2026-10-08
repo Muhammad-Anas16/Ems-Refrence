@@ -24,7 +24,6 @@ const formatValue = (value) => {
 
 const TotalLoad = ({ data }) => {
   const value = data?.totalValue?.value;
-  const units = data?.totalValue?.units;
 
   return (
     <div className="w-full rounded-2xl border border-white/10 bg-white/5 p-5">
@@ -35,10 +34,6 @@ const TotalLoad = ({ data }) => {
       <div className="mt-4 flex min-w-0 items-end gap-2">
         <span className="truncate text-3xl font-semibold text-white sm:text-4xl">
           {formatValue(value)}
-        </span>
-
-        <span className="mb-1 shrink-0 text-sm text-slate-400">
-          {units || "N/A"}
         </span>
       </div>
 
