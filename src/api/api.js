@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const ServerIP = "http://192.168.1.57:3000/api";
+// const ServerIP = "http://192.168.1.57:3000/api";
+const ServerIP = "http://localhost:3000/api";
 
 export const getTrendLog = async () => {
   try {
