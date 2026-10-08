@@ -20,7 +20,7 @@ const ReportPage = () => {
     refetch,
   } = useAuroraDyeingUtilities("Dyeing");
 
-  console.log("Report Page Data =>", systemData);
+  // console.log("Report Page Data =>", systemData);
 
   // Initial loading
   if (isPending) {
